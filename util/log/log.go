@@ -4,10 +4,11 @@ import (
 	"github.com/wonderivan/logger"
 )
 
-func Init() {
+func Init() error {
 	err := logger.SetLogger("./log.json")
 	if err != nil {
-		return
+		return err
 	}
 	logger.Debug("debug init : %v ", logger.LevelMap)
+	return nil
 }

@@ -44,3 +44,7 @@ func Load() error {
 func GetConfig() Config {
 	return *DefaultCfg
 }
+
+func Init() error {
+	return Load()
+}
