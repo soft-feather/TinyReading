@@ -19,7 +19,7 @@ func GetDefaultWebserverShutdownChan() chan os.Signal {
 // 初始化默认的 webserver
 func InitDefaultWebserver() error {
 	DefaultWebserver = &Webserver{}
-	addrLs := config.GetConfig().Default.AddrLs
+	addrLs := config.GetConfig().Default.Addr
 	err := DefaultWebserver.Init(addrLs)
 	DefaultWebserverShutdownChan = DefaultWebserver.shutdownChan
 	return err

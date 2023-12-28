@@ -2,7 +2,6 @@ package webserver
 
 import (
 	"context"
-	"github.com/facebookgo/grace/gracehttp"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/wonderivan/logger"
@@ -24,8 +23,8 @@ type Webserver struct {
 	shutdownChan chan os.Signal
 }
 
-func (w *Webserver) Init(addressLs []string) error {
-	logger.Info(addressLs)
+func (w *Webserver) Init(address string) error {
+	logger.Info(address)
 
 	w.shutdownChan = make(chan os.Signal)
 	r := gin.Default()
@@ -46,13 +45,8 @@ func (w *Webserver) Init(addressLs []string) error {
 	var err error
 
 	go func() {
-		var serverLs []*http.Server
-		for i := range addressLs {
-			serverLs = append(serverLs, &http.Server{Addr: addressLs[i], Handler: r.Handler()})
-		}
-
-		// Serve will serve the given http.Servers and will monitor for signals allowing for graceful termination (SIGTERM) or restart (SIGUSR2).
-		err = gracehttp.Serve(serverLs...)
+		w.server = &http.Server{Addr: address, Handler: r.Handler()}
+		err = w.server.ListenAndServe()
 	}()
 
 	go func() {

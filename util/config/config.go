@@ -24,7 +24,7 @@ func LoadDefaultConfig(path string) error {
 }
 
 type Default struct {
-	AddrLs []string `ini:"addr_ls"`
+	Addr string `ini:"addr"`
 }
 
 type Config struct {
