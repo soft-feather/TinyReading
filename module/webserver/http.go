@@ -25,6 +25,7 @@ type Webserver struct {
 }
 
 func (w *Webserver) Init(addressLs []string) error {
+	logger.Info(addressLs)
 
 	w.shutdownChan = make(chan os.Signal)
 	r := gin.Default()
@@ -45,12 +46,12 @@ func (w *Webserver) Init(addressLs []string) error {
 	var err error
 
 	go func() {
-		serverLs := make([]*http.Server, 1)
-
+		var serverLs []*http.Server
 		for i := range addressLs {
 			serverLs = append(serverLs, &http.Server{Addr: addressLs[i], Handler: r.Handler()})
 		}
 
+		// Serve will serve the given http.Servers and will monitor for signals allowing for graceful termination (SIGTERM) or restart (SIGUSR2).
 		err = gracehttp.Serve(serverLs...)
 	}()
 
