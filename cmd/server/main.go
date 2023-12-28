@@ -12,7 +12,6 @@ func main() {
 	if err != nil {
 		os.Exit(1)
 	}
-
 }
 
 func Init() error {
