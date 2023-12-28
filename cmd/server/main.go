@@ -5,6 +5,13 @@ import (
 	"github.com/soft-feather/TinyReading/util/config"
 	"github.com/soft-feather/TinyReading/util/log"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
+)
+
+const (
+	DefaultShutdownSecond = 1
 )
 
 func main() {
@@ -17,7 +24,12 @@ func main() {
 	if err != nil {
 		os.Exit(1)
 	}
-	select {}
+	signalChan := make(chan os.Signal, 1)
+	signal.Notify(signalChan, os.Interrupt, syscall.SIGTERM)
+	// 等待信号
+	<-signalChan
+	webserver.GetDefaultWebserverShutdownChan() <- syscall.SIGINT
+	time.Sleep(time.Second * DefaultShutdownSecond)
 }
 
 func Init() error {
