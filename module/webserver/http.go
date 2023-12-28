@@ -11,8 +11,14 @@ import (
 	"time"
 )
 
-var DefaultWebserverShutdownChan chan os.Signal
-var DefaultWebserver *Webserver
+const (
+	DefaultTimeoutSecond = 5
+)
+
+var (
+	DefaultWebserver             *Webserver
+	DefaultWebserverShutdownChan chan os.Signal
+)
 
 //const (
 //	DefaultAddress = "0.0.0.0:5000"
@@ -55,7 +61,7 @@ func (w *Webserver) Init(address string) error {
 			switch signal {
 			case syscall.SIGINT:
 				logger.Info("webserver shutdown ...")
-				ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+				ctx, cancel := context.WithTimeout(context.Background(), DefaultTimeoutSecond*time.Second)
 				defer cancel()
 				if err = w.server.Shutdown(ctx); err != nil {
 					logger.Fatal("shutdown %v", err)
