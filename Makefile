@@ -14,9 +14,7 @@ OUTPUT_BIN_DIR = $(BUILD_DST_DIR)/bin
 .PHONY: release
 release:
 	@echo "start release server"
-	@mkdir -p build/TinyReading/bin/doc/md
-	@$(GO) build -o build/TinyReading/bin/server ./cmd/server
-	@cp util/log/log.json ./config.ini build/TinyReading/bin/
+	$(call pack)
 	@tar zcvf TinyReading.tar.gz build/
 
 .PHONY: clean
@@ -27,9 +25,7 @@ clean:
 .PHONY: test
 test:
 	@echo "test run"
-	@mkdir -p build/TinyReading/bin/doc/md
-	$(call build_bin, $(OUTPUT_BIN_DIR)/server $(INPUT_SERVER_DIR))
-	cp $(INPUT_FILE_LS) $(OUTPUT_BIN_DIR)
+	$(call pack)
 	cd build/TinyReading/bin > ./log && ./server
 
 # build_bin $input $output
@@ -37,11 +33,16 @@ define build_bin
 	$(GO) build -o $(1)
 endef
 
+
+# pack
+define pack
+	@mkdir -p $(OUTPUT_BIN_DIR)/doc/md
+	$(call build_bin, $(OUTPUT_BIN_DIR)/server $(INPUT_SERVER_DIR))
+	cp $(INPUT_FILE_LS) $(OUTPUT_BIN_DIR)
+endef
+
 .PHONY: dry-run
 dry-run:
 	@echo "test dry run"
-	@mkdir -p build/TinyReading/bin/doc/md
-	$(call build_bin, $(OUTPUT_BIN_DIR)/server $(INPUT_SERVER_DIR))
-	cp $(INPUT_FILE_LS) $(OUTPUT_BIN_DIR)
-
+	$(call pack)
 	cd $(OUTPUT_BIN_DIR) > ./log && ./server --dry-run
