@@ -24,12 +24,12 @@ clean:
 	@echo "start clean"
 	@rm build/* -r
 
-.PHONY: test-run
-test-run:
+.PHONY: test
+test:
 	@echo "test run"
 	@mkdir -p build/TinyReading/bin/doc/md
-	@$(GO) build -o build/TinyReading/bin/server ./cmd/server
-	@cp util/log/log.json ./config.ini build/TinyReading/bin/
+	$(call build_bin, $(OUTPUT_BIN_DIR)/server $(INPUT_SERVER_DIR))
+	cp $(INPUT_FILE_LS) $(OUTPUT_BIN_DIR)
 	cd build/TinyReading/bin > ./log && ./server
 
 # build_bin $input $output
@@ -37,9 +37,9 @@ define build_bin
 	$(GO) build -o $(1)
 endef
 
-.PHONY: test
-test:
-	@echo "test"
+.PHONY: dry-run
+dry-run:
+	@echo "test dry run"
 	@mkdir -p build/TinyReading/bin/doc/md
 	$(call build_bin, $(OUTPUT_BIN_DIR)/server $(INPUT_SERVER_DIR))
 	cp $(INPUT_FILE_LS) $(OUTPUT_BIN_DIR)
