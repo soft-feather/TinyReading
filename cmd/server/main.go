@@ -8,11 +8,11 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 )
 
 const (
 	DefaultShutdownSecond = 1
-	DefaultDryRunSecond   = 2
 )
 
 func main() {
@@ -38,22 +38,8 @@ func main() {
 		signal.Notify(signalChan, os.Interrupt, syscall.SIGTERM)
 		// 等待信号
 		<-signalChan
+		time.Sleep(time.Second * DefaultShutdownSecond)
 	}
-
-	//if dryRun {
-	//	go func() {
-	//		// 在这里执行 dry-run 逻辑
-	//		// 例如，可以打印出将要执行的操作但不实际执行
-	//		time.Sleep(time.Second * DefaultDryRunSecond)
-	//		logger.Info("Dry-run mode enabled, no operations will be performed")
-	//		webserver.GetDefaultWebserverShutdownChan() <- syscall.SIGINT
-	//	}()
-	//}
-	//
-	//if !dryRun {
-	//	webserver.GetDefaultWebserverShutdownChan() <- syscall.SIGINT
-	//	time.Sleep(time.Second * DefaultShutdownSecond)
-	//}
 }
 
 func Init() error {
