@@ -30,7 +30,7 @@ test-run:
 	@mkdir -p build/TinyReading/bin/doc/md
 	@$(GO) build -o build/TinyReading/bin/server ./cmd/server
 	@cp util/log/log.json ./config.ini build/TinyReading/bin/
-	cd build/TinyReading/bin > ./log && bash -c ./server
+	cd build/TinyReading/bin > ./log && ./server
 
 # build_bin $input $output
 define build_bin
@@ -44,4 +44,4 @@ test:
 	$(call build_bin, $(OUTPUT_BIN_DIR)/server $(INPUT_SERVER_DIR))
 	cp $(INPUT_FILE_LS) $(OUTPUT_BIN_DIR)
 
-	cd $(OUTPUT_BIN_DIR) > ./log && bash -c ./server
+	cd $(OUTPUT_BIN_DIR) > ./log && ./server --dry-run
