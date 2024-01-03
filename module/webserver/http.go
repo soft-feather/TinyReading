@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/soft-feather/TinyReading/module/webserver/api"
 	"github.com/wonderivan/logger"
 	"net/http"
 	"os"
@@ -42,11 +43,12 @@ func (w *Webserver) Init(address string) error {
 	//  ctx.Json({})
 	//	return
 	//})
+
 	r.GET("/", func(c *gin.Context) {
 		logger.Info("test /")
 		c.JSON(200, "")
 	})
-	// api.SetRouterGroup(r)
+	api.SetRouterGroup(r)
 
 	var err error
 
