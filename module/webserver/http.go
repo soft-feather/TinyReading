@@ -8,6 +8,7 @@ import (
 	"github.com/wonderivan/logger"
 	"net/http"
 	"os"
+	"sync"
 	"syscall"
 	"time"
 )
@@ -28,11 +29,11 @@ var (
 type Webserver struct {
 	server       *http.Server
 	shutdownChan chan os.Signal
+	wg           sync.WaitGroup
 }
 
 func (w *Webserver) Init(address string) error {
-	logger.Info(address)
-
+	w.wg.Add(1)
 	w.shutdownChan = make(chan os.Signal)
 	r := gin.Default()
 	r.Use(cors.Default())
@@ -54,10 +55,14 @@ func (w *Webserver) Init(address string) error {
 
 	go func() {
 		w.server = &http.Server{Addr: address, Handler: r.Handler()}
-		err = w.server.ListenAndServe()
+		w.wg.Done()
+		if err = w.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			logger.Fatal("webserver init %v", err)
+		}
 	}()
 
 	go func() {
+		w.wg.Wait()
 		select {
 		case signal := <-w.shutdownChan:
 			switch signal {
