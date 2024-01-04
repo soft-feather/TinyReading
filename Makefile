@@ -33,10 +33,16 @@ define build_bin
 	$(GO) build -o $(1)
 endef
 
+# download_test_pdf $dst_dir
+define download_test_pdf
+	curl -L -o $(1)/test.pdf "https://api.idocv.com/doc/download/tERZLpf?url=http%3a%2f%2fapi.idocv.com%2fdata%2fdoc%2ftest.pdf"
+endef
+
 
 # pack
 define pack
-	@mkdir -p $(OUTPUT_BIN_DIR)/doc/md
+	@mkdir -p $(OUTPUT_BIN_DIR)/doc/pdf
+	$(call download_test_pdf, $(OUTPUT_BIN_DIR)/doc/pdf)
 	$(call build_bin, $(OUTPUT_BIN_DIR)/server $(INPUT_SERVER_DIR))
 	cp $(INPUT_FILE_LS) $(OUTPUT_BIN_DIR)
 endef
