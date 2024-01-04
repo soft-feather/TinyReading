@@ -26,7 +26,7 @@ clean:
 test:
 	@echo "test run"
 	$(call pack)
-	cd build/TinyReading/bin > ./log && ./server
+	cd $(OUTPUT_BIN_DIR) > ./log && ./server
 
 # build_bin $input $output
 define build_bin
