@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"github.com/soft-feather/TinyReading/module/webserver"
+	"github.com/soft-feather/TinyReading/util/common/profile"
 	"github.com/soft-feather/TinyReading/util/config"
 	"github.com/soft-feather/TinyReading/util/log"
 	"os"
@@ -44,12 +45,15 @@ func main() {
 
 func Init() error {
 	var err error
-	err = log.Init()
-	if err != nil {
+	if err = profile.Init(); err != nil {
 		return err
 	}
-	err = config.Init()
-	if err != nil {
+
+	if err = log.Init(); err != nil {
+		return err
+	}
+
+	if err = config.Init(); err != nil {
 		return err
 	}
 	return nil
