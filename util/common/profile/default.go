@@ -11,8 +11,17 @@ type EtcProfile struct {
 }
 
 func Init() error {
-	var err error
-	etcProfile.CWD, err = os.Getwd()
+	var (
+		err error
+		cwd string
+	)
+	if cwd, err = os.Getwd(); err != nil {
+		return err
+	}
+	etcProfile = &EtcProfile{
+		CWD: cwd,
+	}
+
 	return err
 }
 
