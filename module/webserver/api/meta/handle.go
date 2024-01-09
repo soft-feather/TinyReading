@@ -52,6 +52,7 @@ func SearchHandler(ctx *gin.Context) {
 }
 
 // AddHandler add book meta handler
+// curl -X POST -H "Content-Type: application/json" -d '{"book_id": 1, "book_name": "test", "book_author": "test", "book_description": "test", "book_sn": "test", "book_tags": [{"name": "test", "nice": 1}], "book_publish_date": "2020-01-01T00:00:00Z", "book_meta_create_at": "2020-01-01T00:00:00Z", "book_meta_last_modify_at": "2020-01-01T00:00:00Z"}' 127.0.0.1:5000/api/meta/add
 func AddHandler(ctx *gin.Context) {
 	req := AddMetaRequest{}
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -68,8 +69,8 @@ func AddHandler(ctx *gin.Context) {
 		Author:       req.BookAuthor,
 		Name:         req.BookName,
 		Description:  req.BookDescription,
-		Tags:         req.BookTags,
 	}
+	// TODO tag ls
 	db := sqlite.GetDB().Create(data)
 	if db.Error != nil {
 		logger.Error(db.Error)

@@ -6,6 +6,7 @@ import (
 	"github.com/soft-feather/TinyReading/util/common/profile"
 	"github.com/soft-feather/TinyReading/util/config"
 	"github.com/soft-feather/TinyReading/util/log"
+	"github.com/soft-feather/TinyReading/util/storage"
 	"os"
 	"os/signal"
 	"syscall"
@@ -54,6 +55,10 @@ func Init() error {
 	}
 
 	if err = config.Init(); err != nil {
+		return err
+	}
+
+	if err = storage.Init(); err != nil {
 		return err
 	}
 	return nil

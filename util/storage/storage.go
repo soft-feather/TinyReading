@@ -5,8 +5,12 @@ import (
 	"github.com/soft-feather/TinyReading/util/storage/sqlite"
 )
 
-func Init() {
+func Init() error {
 	file.Init()
 	// json_storage.Init()
-	sqlite.Init()
+	err := sqlite.Init()
+	if err != nil {
+		return err
+	}
+	return nil
 }

@@ -14,8 +14,8 @@ var (
 	db *gorm.DB
 )
 
-func Init() {
-	initDB()
+func Init() error {
+	return initDB()
 }
 
 type Product struct {
@@ -24,7 +24,7 @@ type Product struct {
 	Price float64
 }
 
-func initDB() *gorm.DB {
+func initDB() error {
 	var err error
 	db, err = gorm.Open(sqlite.Open(profile.GetEtcProfile().SqliteDBFileName), &gorm.Config{})
 
@@ -34,14 +34,14 @@ func initDB() *gorm.DB {
 	}
 	// Migrate the schema
 	logger.Debug("start migrate tables ...")
-	err = db.AutoMigrate(&table.Tag{}, &table.File{})
+	err = db.AutoMigrate(&table.Tag{}, &table.File{}, &table.Meta{})
 
 	if err != nil {
 		logger.Fatal(errors.SqliteMigrateError)
 		os.Exit(errors.SqliteMigrateError)
 	}
 	// db.Create(&Product{Name: "Mobile", Price: 500.50})
-	return db
+	return nil
 }
 
 func GetDB() *gorm.DB {

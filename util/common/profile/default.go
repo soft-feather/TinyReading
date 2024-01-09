@@ -25,6 +25,9 @@ func Init() error {
 	}
 	etcProfile = &EtcProfile{
 		CWD: cwd,
+		StorageProfile: StorageProfile{
+			SqliteDBFileName: "storage.db",
+		},
 	}
 
 	return err

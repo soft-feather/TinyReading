@@ -9,7 +9,6 @@ type Meta struct {
 	Author      string
 	Description string
 	//BookCover        string
-	Tags         []Tag
 	PublishDate  time.Time
 	CreateAt     time.Time
 	LastModifyAt time.Time
