@@ -6,8 +6,13 @@ var (
 	etcProfile *EtcProfile
 )
 
+type StorageProfile struct {
+	SqliteDBFileName string
+}
+
 type EtcProfile struct {
 	CWD string
+	StorageProfile
 }
 
 func Init() error {

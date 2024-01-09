@@ -2,10 +2,11 @@ package meta
 
 import "github.com/gin-gonic/gin"
 
-func SetViewRouterGroup(router *gin.RouterGroup) {
-	searchRouteGroup := router.Group("/meta")
-	v1SearchRouteGroup := searchRouteGroup.Group("/v1")
+func SetMetaRouterGroup(router *gin.RouterGroup) {
+	metaRouteGroup := router.Group("/meta")
+	v1MetaRouteGroup := metaRouteGroup.Group("/v1")
 	{
-		v1SearchRouteGroup.GET("/", SearchHandler)
+		v1MetaRouteGroup.GET("/search", SearchHandler)
+		v1MetaRouteGroup.POST("/add", AddHandler)
 	}
 }
