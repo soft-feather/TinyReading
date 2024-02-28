@@ -33,6 +33,7 @@ type Webserver struct {
 }
 
 func (w *Webserver) Init(address string) error {
+	logger.Debug("webserver init")
 	w.wg.Add(1)
 	w.shutdownChan = make(chan os.Signal)
 	r := gin.Default()
