@@ -38,7 +38,7 @@ func (w *Webserver) Init(address string) error {
 	w.shutdownChan = make(chan os.Signal)
 	r := gin.Default()
 	r.Use(cors.Default())
-	// TODO logic route group addition
+	// todo logic route group addition
 	//rg := r.Group("/")
 	//rg.POST("/test", func(c *gin.Context) {
 	//	logger.Info("test")
