@@ -78,5 +78,4 @@ func AddHandler(ctx *gin.Context) {
 		return
 	}
 	http.Responses(ctx, errors.OK, data)
-	//http.Responses(ctx, errors.NotImplement, nil)
 }
