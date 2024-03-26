@@ -20,8 +20,10 @@ const (
 func main() {
 
 	var dryRun bool
+	var profilePath string
 
 	flag.BoolVar(&dryRun, "dry-run", false, "Enable dry-run mode")
+	flag.StringVar(&profilePath, "profile", "", "Profile path")
 	flag.Parse()
 	var err error
 	err = Init()
